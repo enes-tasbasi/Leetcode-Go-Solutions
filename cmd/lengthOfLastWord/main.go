@@ -3,45 +3,30 @@ package main
 import "fmt"
 
 func main() {
-	s := "a"
+	s := " "
 	fmt.Println(lengthOfLastWord(s))
 }
 
 func lengthOfLastWord(s string) int {
-	arr := []string{}
-	str := -1
+	left := 0
+	right := 0
+	lastMax := 0
 
-	if len(s) == 1 {
-		if s == " " {
-			return 0
-		} else {
-			return 1
+	for i := 0; i < len(s); i++ {
+		if s[i] != ' ' {
+			left = i
+
+			for right = i + 1; right < len(s); right++ {
+				if s[right] == ' ' {
+					break
+				}
+			}
+			i = right
+
 		}
 	}
 
-	for i, v := range s {
-		if v == ' ' {
-			if str > -1 {
-				arr = append(arr, s[str:i])
-			}
-			str = -1
-		} else if i == len(s)-1 {
-			if str > -1 {
-				arr = append(arr, s[str:])
-			}
-		} else {
-			if str < 0 {
-				str = i
-			}
-		}
-	}
+	lastMax = right - left
 
-	max := 0
-	for _, v := range arr {
-		if len(v) > max {
-			max = len(v)
-		}
-	}
-
-	return max
+	return lastMax
 }
