@@ -6,28 +6,28 @@ func main() {
 	// 3 -> 2 -> 0 -> -4
 	//      ^ <- <- <- |
 
-	// var third ListNode
-	// second := ListNode{
-	// 	2,
-	// 	&third,
-	// }
-	// fourth := ListNode{
-	// 	-4,
-	// 	&second,
-	// }
-	// third = ListNode{
-	// 	0,
-	// 	&fourth,
-	// }
-	// first := ListNode{
-	// 	3,
-	// 	&second,
-	// }
-
-	first := ListNode{
-		1,
-		nil,
+	var third ListNode
+	second := ListNode{
+		2,
+		&third,
 	}
+	fourth := ListNode{
+		-4,
+		&second,
+	}
+	third = ListNode{
+		0,
+		&fourth,
+	}
+	first := ListNode{
+		3,
+		&second,
+	}
+
+	// first := ListNode{
+	// 	1,
+	// 	nil,
+	// }
 	fmt.Println(hasCycle(&first))
 }
 
@@ -39,17 +39,17 @@ type ListNode struct {
 
 func hasCycle(head *ListNode) bool {
 	current := head
-	visited := []*ListNode{}
 
-	for current != nil {
+	for current.Next != nil {
+		cycle := current.Next
 
-		for i := 0; i < len(visited); i++ {
-			if visited[i] == current {
+		for cycle != nil {
+			if cycle == current {
 				return true
 			}
-		}
 
-		visited = append(visited, current)
+			cycle = cycle.Next
+		}
 
 		current = current.Next
 	}
@@ -59,30 +59,22 @@ func hasCycle(head *ListNode) bool {
 
 /*
 
-ListNode current // 3 // 2 // 0 // -4 // 2
-ListNode[] visited // [] // [3] \\ [3, 2] // [3, 2, 0] // [3, 2, 0, -4]
+ListNode current // 2
 
-while(current != null) {
+while(current.next != null) {
+	ListNode cycle = current.next // 0
 
-	for i = 0; i < visited.length; i++ { //
-		if visited[i] == current {
+	while(cycle != null) {
+		if(cycle == current) { // false
 			return true
 		}
-	}
-	visited.append(current)
 
-	current = curren.next
+		cycle = cycle.next
+	}
+
+	current = current.next
 }
 
 return false
-
-
-
-
-
-
-
-
-
 
 */
