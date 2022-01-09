@@ -6,28 +6,28 @@ func main() {
 	// 3 -> 2 -> 0 -> -4
 	//      ^ <- <- <- |
 
-	var third ListNode
-	second := ListNode{
-		2,
-		&third,
-	}
-	fourth := ListNode{
-		-4,
-		&second,
-	}
-	third = ListNode{
-		0,
-		&fourth,
-	}
-	first := ListNode{
-		3,
-		&second,
-	}
-
-	// first := ListNode{
-	// 	1,
-	// 	nil,
+	// var third ListNode
+	// second := ListNode{
+	// 	2,
+	// 	&third,
 	// }
+	// fourth := ListNode{
+	// 	-4,
+	// 	&second,
+	// }
+	// third = ListNode{
+	// 	0,
+	// 	&fourth,
+	// }
+	// first := ListNode{
+	// 	3,
+	// 	&second,
+	// }
+
+	first := ListNode{
+		1,
+		nil,
+	}
 	fmt.Println(hasCycle(&first))
 }
 
@@ -38,20 +38,16 @@ type ListNode struct {
 }
 
 func hasCycle(head *ListNode) bool {
-	current := head
+	fast := head
+	slow := head
 
-	for current.Next != nil {
-		cycle := current.Next
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
 
-		for cycle != nil {
-			if cycle == current {
-				return true
-			}
-
-			cycle = cycle.Next
+		if slow == fast {
+			return true
 		}
-
-		current = current.Next
 	}
 
 	return false
@@ -59,22 +55,5 @@ func hasCycle(head *ListNode) bool {
 
 /*
 
-ListNode current // 2
 
-while(current.next != null) {
-	ListNode cycle = current.next // 0
-
-	while(cycle != null) {
-		if(cycle == current) { // false
-			return true
-		}
-
-		cycle = cycle.next
-	}
-
-	current = current.next
-}
-
-return false
-
-*/
+ */
