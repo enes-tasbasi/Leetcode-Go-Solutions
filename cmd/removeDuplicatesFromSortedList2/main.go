@@ -44,23 +44,25 @@ type ListNode struct {
 }
 
 // [1,2,3,3,4,4,5]
+// TODO: Doesn't work as of now
 func deleteDuplicates(head *ListNode) *ListNode {
 	if head == nil {
 		return head
 	}
 
 	current := head
-	ahead := head.Next // 2 // 3 -> 3 // 3 -> 4 // 4 -> 4 // 4 -> 5
+	ahead := head.Next
 
 	for ahead != nil {
-		if current.Next.Val == ahead.Val {
-			ahead = ahead.Next
-			if ahead != nil {
-				ahead = ahead.Next
-			}
+		if current.Val == ahead.Val {
 			current.Next = ahead
+			if ahead.Next != nil {
+				ahead = ahead.Next.Next
+			} else {
+				ahead = nil
+			}
 		} else {
-			current = ahead
+			current = current.Next
 			ahead = ahead.Next
 		}
 	}
