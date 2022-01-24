@@ -66,8 +66,6 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		newSum := current1.Val + current2.Val + carry
 		carry = 0
 
-		sumCurrent.Next = &ListNode{}
-
 		if newSum > 9 {
 			carry = 1
 			sumCurrent.Val = newSum % 10
@@ -75,7 +73,10 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			sumCurrent.Val = newSum
 		}
 
-		sumCurrent = sumCurrent.Next
+		if current1.Next != nil {
+			sumCurrent.Next = &ListNode{}
+			sumCurrent = sumCurrent.Next
+		}
 
 		current1 = current1.Next
 		current2 = current2.Next
