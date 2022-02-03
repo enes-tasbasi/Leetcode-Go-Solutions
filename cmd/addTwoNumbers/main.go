@@ -28,25 +28,41 @@ func print(node *ListNode) {
 }
 
 func main() {
-	l1n1, l1n2, l1n3, l2n1, l2n2, l2n3 := ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}
+	l1n1, l1n2, l1n3, l1n4, l1n5, l1n6, l1n7, l2n1, l2n2, l2n3, l2n4 := ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{}, ListNode{},
+		ListNode{}
 
-	l1n1.Val = 2
+	l1n1.Val = 9
 	l1n1.Next = &l1n2
 
-	l1n2.Val = 4
+	l1n2.Val = 9
 	l1n2.Next = &l1n3
 
-	l1n3.Val = 3
-	l1n3.Next = nil
+	l1n3.Val = 9
+	l1n3.Next = &l1n4
 
-	l2n1.Val = 5
+	l1n4.Val = 9
+	l1n4.Next = &l1n5
+
+	l1n5.Val = 9
+	l1n5.Next = &l1n6
+
+	l1n6.Val = 9
+	l1n6.Next = &l1n7
+
+	l1n7.Val = 9
+	l1n7.Next = nil
+
+	l2n1.Val = 9
 	l2n1.Next = &l2n2
 
-	l2n2.Val = 6
+	l2n2.Val = 9
 	l2n2.Next = &l2n3
 
-	l2n3.Val = 4
-	l2n3.Next = nil
+	l2n3.Val = 9
+	l2n3.Next = &l2n4
+
+	l2n4.Val = 9
+	l2n4.Next = nil
 
 	print(&l1n1)
 	print(&l2n1)
@@ -73,7 +89,23 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			sumCurrent.Val = newSum
 		}
 
-		if current1.Next != nil {
+		if current1.Next != nil && current2.Next == nil {
+			if carry > 0 {
+				current1.Next.Val++
+				carry = 0
+			}
+
+			sumCurrent.Next = current1.Next
+			sumCurrent = sumCurrent.Next
+		} else if current1.Next == nil && current2.Next != nil {
+			if carry > 0 {
+				current2.Next.Val++
+				carry = 0
+			}
+
+			sumCurrent.Next = current2.Next
+			sumCurrent = sumCurrent.Next
+		} else if current1.Next != nil && current2.Next != nil {
 			sumCurrent.Next = &ListNode{}
 			sumCurrent = sumCurrent.Next
 		}
