@@ -12,12 +12,16 @@ func main() {
 
 // Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 func twoSum(nums []int, target int) []int {
-	for i := 0; i < len(nums)-1; i++ {
-		for a := i + 1; a < len(nums); a++ {
-			if nums[i]+nums[a] == target {
-				return []int{i, a}
-			}
+	nMap := make(map[int]int, len(nums))
+
+	for i := 0; i < len(nums); i++ {
+		remainder := target - nums[i]
+
+		if _, ok := nMap[remainder]; ok {
+			return []int{i, nMap[remainder]}
 		}
+
+		nMap[nums[i]] = i
 	}
 
 	return []int{}
