@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	heap "github.com/etasbasi/leetcode/m/v2/utils"
+	"sort"
 )
 
 func main() {
@@ -12,6 +11,17 @@ func main() {
 
 	fmt.Println(topKFrequent(data, k))
 }
+
+type KeyVal struct {
+	num     int
+	repeats int
+}
+
+type Arr []KeyVal
+
+func (a Arr) Len() int           { return len(a) }
+func (a Arr) Less(i, j int) bool { return a[i].repeats > a[j].repeats }
+func (a Arr) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // TODO: fails because it is not fast enough on large data, find a way to use a priority queue.
 // Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
@@ -26,16 +36,16 @@ func topKFrequent(nums []int, k int) []int {
 		}
 	}
 
-	pq := heap.MaxHeap{}
-
-	for _, v := range hMap {
-		pq.Push(v)
+	arr := []KeyVal{}
+	for k, v := range hMap {
+		arr = append(arr, KeyVal{k, v})
 	}
 
-	res := []int{}
+	sort.Sort(Arr(arr))
 
+	res := []int{}
 	for i := 0; i < k; i++ {
-		res = append(res, pq.Pop())
+		res = append(res, arr[i].num)
 	}
 
 	return res

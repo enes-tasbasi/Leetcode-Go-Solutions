@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -11,46 +12,38 @@ func main() {
 	fmt.Println(groupAnagrams(strs))
 }
 
-func hasAll(a, b string) bool {
-	remainA := a
-	if len(a) != len(b) {
-		return false
+func getCode(s string) int {
+	t := 0
+	for _, v := range s {
+		t += int(v)
 	}
 
-	for _, letter := range b {
-		index := strings.IndexRune(remainA, letter)
-		if index == -1 {
-			return false
-		}
-
-		remainA = strings.Replace(remainA, string(letter), "", 1)
-	}
-	return true
+	return t + len(s)
 }
 
+// Given an array of strings strs, group the anagrams together. You can return the answer in any order.
 func groupAnagrams(strs []string) [][]string {
 	st := [][]string{}
+	hMap := map[string][]string{}
 
-	for i := 0; i < len(strs); i++ {
+	for _, str := range strs {
 
-		hasWord := false
+		splitStr := strings.Split(str, "")
+		sort.Strings(splitStr)
+		complete := strings.Join(splitStr, "")
 
-		for a := 0; a < len(st); a++ {
-			if len(st[a]) == 0 {
-				continue
-			}
-
-			if hasAll(st[a][0], strs[i]) {
-				hasWord = true
-
-				st[a] = append(st[a], strs[i])
-				break
-			}
+		if _, ok := hMap[complete]; ok {
+			hMap[complete] = append(hMap[complete], str)
+		} else {
+			hMap[complete] = []string{str}
 		}
+	}
 
-		if !hasWord {
-			st = append(st, []string{strs[i]})
-		}
+	for _, v := range hMap {
+		local := []string{}
+		local = append(local, v...)
+
+		st = append(st, local)
 	}
 
 	return st
